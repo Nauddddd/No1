@@ -1,0 +1,42 @@
+    #include<bits/stdc++.h>
+    using namespace std;
+    #define ll long long
+    int n;
+    int BIT[1000009];
+    int getBIT(int n){
+        int rs=0;
+        for(;n>0;n-=n&(-n)){
+            rs+=BIT[n];
+        }
+        return rs;
+    }
+    void updateBIT(int k, int value){
+        for(;k<=n;k+=k&(-k)){
+            BIT[k]+=value;
+        }
+    }
+    int main(){
+        int q,x,l,r;
+        cin>>n>>q;
+        int a[n+1];
+        for(int i=1;i<=n;i++){
+            cin>>a[i];
+        }
+        for(int i=1;i<=n;i++){
+            BIT[i]=0;
+        }
+        for(int i=1;i<=n;i++){
+            updateBIT(i,a[i]);
+        }
+        for(int i=0;i<q;i++){
+            cin>>x>>l>>r;
+            if(x==1){
+                 int rs = getBIT(r)-getBIT(l-1);
+                 cout<<rs;
+            }
+            else{
+                 updateBIT(l,-a[l]);
+                 updateBIT(l,r);
+            }
+        }
+    }
